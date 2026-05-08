@@ -1,0 +1,1414 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap');
+
+  :root {
+    --bg:       #0A0800;
+    --bg2:      #110E02;
+    --bg3:      #1A1400;
+    --card:     #1C1600;
+    --card2:    #221A00;
+    --gold:     #C9960A;
+    --gold-lt:  #F0B429;
+    --gold-dim: #8A6400;
+    --amber:    #E07A00;
+    --orange:   #D4540A;
+    --orange-lt:#FF7733;
+    --text:     #F5E9C8;
+    --text2:    #A89060;
+    --text3:    #5A4820;
+    --border:   #2E2200;
+    --border2:  #3D2D00;
+    --glow:     rgba(201,150,10,0.12);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  .wf-shell {
+    background: var(--bg);
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  /* NAV BAR */
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    height: 52px;
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border2);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav-logo {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--gold-lt);
+    letter-spacing: 4px;
+  }
+  .nav-tabs {
+    display: flex;
+    gap: 2px;
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    border-radius: 8px;
+    padding: 3px;
+  }
+  .nav-tab {
+    padding: 5px 14px;
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: 6px;
+    cursor: pointer;
+    color: var(--text2);
+    transition: all 0.2s;
+    border: none;
+    background: transparent;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .nav-tab.active {
+    background: var(--card2);
+    color: var(--gold-lt);
+    border: 1px solid var(--border2);
+  }
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .nav-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold-dim), var(--orange));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--bg);
+  }
+  .nav-notif {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+  }
+  .nav-notif i { font-size: 15px; color: var(--text2); }
+  .notif-dot {
+    position: absolute;
+    top: 5px; right: 5px;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--orange-lt);
+    border: 1px solid var(--bg2);
+  }
+
+  /* SCREENS */
+  .screen { display: none; }
+  .screen.active { display: flex; }
+
+  /* ── FEED SCREEN ── */
+  .feed-layout {
+    display: grid;
+    grid-template-columns: 220px 1fr 260px;
+    gap: 0;
+    min-height: calc(100vh - 52px);
+  }
+
+  /* Left sidebar */
+  .sidebar-left {
+    background: var(--bg2);
+    border-right: 1px solid var(--border);
+    padding: 20px 0;
+  }
+  .sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 0 12px;
+  }
+  .menu-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--text2);
+    transition: all 0.15s;
+    border: none;
+    background: transparent;
+    font-family: 'DM Sans', sans-serif;
+    text-align: left;
+    width: 100%;
+  }
+  .menu-item:hover { background: var(--bg3); color: var(--text); }
+  .menu-item.active { background: var(--card2); color: var(--gold-lt); }
+  .menu-item i { font-size: 16px; width: 18px; }
+  .menu-badge {
+    margin-left: auto;
+    background: var(--orange);
+    color: var(--bg);
+    font-size: 10px;
+    font-weight: 600;
+    padding: 1px 6px;
+    border-radius: 10px;
+  }
+  .sidebar-section {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text3);
+    letter-spacing: 1.5px;
+    padding: 18px 24px 6px;
+    text-transform: uppercase;
+  }
+  .rep-mini {
+    margin: 16px 12px 0;
+    background: var(--card);
+    border: 1px solid var(--border2);
+    border-radius: 10px;
+    padding: 12px;
+  }
+  .rep-mini-label { font-size: 10px; color: var(--text3); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+  .rep-domain {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+  .rep-domain-name { font-size: 11px; color: var(--text2); }
+  .rep-domain-score { font-size: 12px; font-weight: 600; color: var(--gold-lt); }
+  .rep-bar-bg {
+    height: 3px;
+    background: var(--border2);
+    border-radius: 2px;
+    margin-top: 3px;
+    margin-bottom: 8px;
+  }
+  .rep-bar-fill {
+    height: 3px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--gold-dim), var(--gold-lt));
+  }
+
+  /* Feed center */
+  .feed-center {
+    padding: 20px 24px;
+    overflow-y: auto;
+  }
+  .feed-compose {
+    background: var(--card);
+    border: 1px solid var(--border2);
+    border-radius: 12px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    cursor: pointer;
+  }
+  .compose-avatar {
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold-dim), var(--orange));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--bg);
+    flex-shrink: 0;
+  }
+  .compose-placeholder {
+    flex: 1;
+    font-size: 13px;
+    color: var(--text3);
+  }
+  .compose-types {
+    display: flex;
+    gap: 6px;
+  }
+  .compose-type {
+    padding: 4px 10px;
+    font-size: 11px;
+    border-radius: 6px;
+    background: var(--bg3);
+    color: var(--text2);
+    border: 1px solid var(--border2);
+    cursor: pointer;
+  }
+
+  .feed-filters {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 16px;
+    overflow-x: auto;
+  }
+  .filter-pill {
+    padding: 5px 12px;
+    font-size: 11px;
+    border-radius: 20px;
+    border: 1px solid var(--border2);
+    color: var(--text2);
+    cursor: pointer;
+    white-space: nowrap;
+    background: transparent;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.15s;
+  }
+  .filter-pill.active {
+    background: var(--gold-dim);
+    border-color: var(--gold);
+    color: var(--gold-lt);
+  }
+
+  /* Node cards */
+  .node-card {
+    background: var(--card);
+    border: 1px solid var(--border2);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+    transition: border-color 0.2s;
+    cursor: pointer;
+  }
+  .node-card:hover { border-color: var(--gold-dim); }
+  .node-card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .node-author-avatar {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .av-a { background: linear-gradient(135deg, #3B1F00, #7A4400); color: var(--gold-lt); }
+  .av-b { background: linear-gradient(135deg, #001A10, #004030); color: #4ECBA0; }
+  .av-c { background: linear-gradient(135deg, #1A0020, #500060); color: #C070FF; }
+  .node-author-info { flex: 1; }
+  .node-author-name { font-size: 12px; font-weight: 500; color: var(--text); }
+  .node-meta { font-size: 11px; color: var(--text3); }
+  .node-type-badge {
+    padding: 3px 8px;
+    font-size: 10px;
+    border-radius: 5px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  .badge-claim { background: rgba(201,150,10,0.15); color: var(--gold-lt); border: 1px solid rgba(201,150,10,0.3); }
+  .badge-hypothesis { background: rgba(212,84,10,0.15); color: var(--orange-lt); border: 1px solid rgba(212,84,10,0.3); }
+  .badge-essay { background: rgba(100,180,255,0.1); color: #80C4FF; border: 1px solid rgba(100,180,255,0.2); }
+  .badge-question { background: rgba(160,100,255,0.1); color: #C090FF; border: 1px solid rgba(160,100,255,0.2); }
+  .node-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 6px;
+    line-height: 1.4;
+  }
+  .node-preview {
+    font-size: 12px;
+    color: var(--text2);
+    line-height: 1.6;
+    margin-bottom: 10px;
+  }
+  .node-tags {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+  .node-tag {
+    padding: 2px 8px;
+    font-size: 10px;
+    border-radius: 4px;
+    background: var(--bg3);
+    color: var(--text3);
+    border: 1px solid var(--border);
+  }
+  .node-footer {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+  }
+  .node-action {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    color: var(--text3);
+    cursor: pointer;
+    padding: 3px 6px;
+    border-radius: 5px;
+    transition: all 0.15s;
+  }
+  .node-action:hover { color: var(--gold-lt); background: var(--glow); }
+  .node-action i { font-size: 14px; }
+  .node-connections {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    color: var(--gold-dim);
+  }
+  .node-connections i { font-size: 13px; }
+
+  /* Right panel */
+  .sidebar-right {
+    background: var(--bg2);
+    border-left: 1px solid var(--border);
+    padding: 20px 16px;
+    overflow-y: auto;
+  }
+  .panel-title {
+    font-size: 11px;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+  .match-card {
+    background: var(--card);
+    border: 1px solid var(--border2);
+    border-radius: 10px;
+    padding: 12px;
+    margin-bottom: 10px;
+  }
+  .match-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .match-name { font-size: 12px; font-weight: 500; color: var(--text); }
+  .match-domain { font-size: 10px; color: var(--text3); }
+  .match-reason {
+    font-size: 11px;
+    color: var(--text2);
+    line-height: 1.5;
+    margin-bottom: 8px;
+    border-left: 2px solid var(--gold-dim);
+    padding-left: 8px;
+  }
+  .match-score {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .match-score-val { font-size: 11px; color: var(--gold-lt); font-weight: 600; }
+  .match-btn {
+    padding: 4px 12px;
+    font-size: 11px;
+    border-radius: 6px;
+    background: rgba(201,150,10,0.15);
+    color: var(--gold-lt);
+    border: 1px solid rgba(201,150,10,0.3);
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.15s;
+  }
+  .match-btn:hover { background: rgba(201,150,10,0.25); }
+
+  .agent-status {
+    background: var(--card);
+    border: 1px solid var(--border2);
+    border-radius: 10px;
+    padding: 12px;
+    margin-bottom: 16px;
+  }
+  .agent-status-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .agent-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--amber);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  .agent-status-label { font-size: 12px; font-weight: 500; color: var(--text); }
+  .agent-task {
+    font-size: 11px;
+    color: var(--text2);
+    padding: 6px 8px;
+    background: var(--bg3);
+    border-radius: 6px;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .agent-task i { font-size: 12px; color: var(--gold-dim); }
+
+  /* ── GRAPH SCREEN ── */
+  .graph-screen {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 52px);
+    background: var(--bg);
+  }
+  .graph-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 24px;
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+  }
+  .graph-toolbar-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    font-size: 12px;
+    border-radius: 7px;
+    background: var(--bg3);
+    color: var(--text2);
+    border: 1px solid var(--border2);
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .graph-toolbar-btn i { font-size: 14px; }
+  .graph-toolbar-btn.primary { background: rgba(201,150,10,0.15); color: var(--gold-lt); border-color: rgba(201,150,10,0.3); }
+  .graph-search {
+    flex: 1;
+    max-width: 300px;
+    padding: 6px 12px;
+    font-size: 12px;
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    border-radius: 7px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    outline: none;
+  }
+  .graph-search::placeholder { color: var(--text3); }
+  .graph-main {
+    display: flex;
+    flex: 1;
+  }
+  .graph-canvas {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    cursor: grab;
+  }
+  .graph-svg {
+    width: 100%;
+    height: 480px;
+  }
+  .graph-side {
+    width: 260px;
+    background: var(--bg2);
+    border-left: 1px solid var(--border);
+    padding: 16px;
+    overflow-y: auto;
+  }
+  .graph-node-detail {
+    background: var(--card);
+    border: 1px solid var(--border2);
+    border-radius: 10px;
+    padding: 14px;
+    margin-bottom: 12px;
+  }
+  .graph-node-type { font-size: 10px; color: var(--gold-dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+  .graph-node-title { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 8px; line-height: 1.4; }
+  .graph-node-meta { font-size: 11px; color: var(--text3); margin-bottom: 8px; }
+  .connection-list { display: flex; flex-direction: column; gap: 6px; }
+  .connection-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 8px;
+    background: var(--bg3);
+    border-radius: 6px;
+    font-size: 11px;
+    color: var(--text2);
+    cursor: pointer;
+  }
+  .connection-item:hover { background: var(--card2); color: var(--text); }
+  .connection-strength {
+    margin-left: auto;
+    font-size: 10px;
+    color: var(--gold-dim);
+    font-weight: 600;
+  }
+
+  /* ── PROFILE SCREEN ── */
+  .profile-layout {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 28px 24px;
+  }
+  .profile-hero {
+    background: var(--card);
+    border: 1px solid var(--border2);
+    border-radius: 14px;
+    padding: 24px;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .profile-hero-bg {
+    position: absolute;
+    top: 0; right: 0;
+    width: 300px; height: 140px;
+    background: radial-gradient(ellipse at top right, rgba(201,150,10,0.08), transparent);
+    pointer-events: none;
+  }
+  .profile-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    margin-bottom: 16px;
+  }
+  .profile-avatar {
+    width: 70px; height: 70px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold-dim), var(--orange));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cinzel', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--bg);
+    flex-shrink: 0;
+    border: 2px solid var(--border2);
+  }
+  .profile-name {
+    font-family: 'Cinzel', serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 3px;
+  }
+  .profile-handle { font-size: 13px; color: var(--text3); margin-bottom: 6px; }
+  .profile-bio { font-size: 13px; color: var(--text2); line-height: 1.6; }
+  .profile-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .pstat {
+    text-align: center;
+    background: var(--bg3);
+    border-radius: 8px;
+    padding: 10px 6px;
+    border: 1px solid var(--border);
+  }
+  .pstat-val { font-size: 20px; font-weight: 600; color: var(--gold-lt); display: block; }
+  .pstat-label { font-size: 10px; color: var(--text3); }
+  .profile-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .profile-tag {
+    padding: 4px 10px;
+    font-size: 11px;
+    border-radius: 6px;
+    background: var(--bg3);
+    color: var(--text2);
+    border: 1px solid var(--border2);
+  }
+  .profile-tag.gold { background: rgba(201,150,10,0.12); color: var(--gold-lt); border-color: rgba(201,150,10,0.3); }
+
+  .rep-section {
+    background: var(--card);
+    border: 1px solid var(--border2);
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  .rep-section-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .rep-section-title i { color: var(--gold-dim); }
+  .rep-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .rep-item {
+    background: var(--bg3);
+    border-radius: 8px;
+    padding: 12px;
+    border: 1px solid var(--border);
+  }
+  .rep-item-domain { font-size: 11px; color: var(--text3); margin-bottom: 4px; }
+  .rep-item-score { font-size: 22px; font-weight: 700; color: var(--gold-lt); }
+  .rep-item-rank { font-size: 10px; color: var(--amber); margin-top: 2px; }
+  .rep-item-bar-bg { height: 3px; background: var(--border2); border-radius: 2px; margin-top: 6px; }
+  .rep-item-bar { height: 3px; border-radius: 2px; }
+  .bar-gold { background: linear-gradient(90deg, var(--gold-dim), var(--gold-lt)); }
+  .bar-orange { background: linear-gradient(90deg, #7A3000, var(--orange)); }
+  .bar-amber { background: linear-gradient(90deg, #5A3000, var(--amber)); }
+
+  /* ── AGENT SCREEN ── */
+  .agent-layout {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    min-height: calc(100vh - 52px);
+  }
+  .agent-main {
+    padding: 24px;
+    overflow-y: auto;
+  }
+  .agent-hero {
+    background: var(--card);
+    border: 1px solid var(--border2);
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .agent-orb {
+    width: 54px; height: 54px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, var(--gold-lt), var(--orange));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    animation: orbit 4s ease-in-out infinite;
+  }
+  @keyframes orbit { 0%,100%{transform:scale(1)} 50%{transform:scale(1.05)} }
+  .agent-orb i { font-size: 22px; color: var(--bg); }
+  .agent-hero-text { flex: 1; }
+  .agent-hero-title { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+  .agent-hero-sub { font-size: 12px; color: var(--text2); }
+  .agent-status-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    background: rgba(224,122,0,0.15);
+    border: 1px solid rgba(224,122,0,0.3);
+    border-radius: 20px;
+    font-size: 11px;
+    color: var(--amber);
+  }
+  .agent-status-pill i { font-size: 12px; }
+
+  .agent-actions-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .agent-action-card {
+    background: var(--card);
+    border: 1px solid var(--border2);
+    border-radius: 10px;
+    padding: 14px;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  .agent-action-card:hover { border-color: var(--gold-dim); }
+  .agent-action-icon {
+    width: 34px; height: 34px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+  }
+  .icon-gold { background: rgba(201,150,10,0.15); }
+  .icon-orange { background: rgba(212,84,10,0.15); }
+  .icon-amber { background: rgba(224,122,0,0.15); }
+  .icon-blue { background: rgba(80,140,255,0.1); }
+  .agent-action-icon i { font-size: 16px; }
+  .icon-gold i { color: var(--gold-lt); }
+  .icon-orange i { color: var(--orange-lt); }
+  .icon-amber i { color: var(--amber); }
+  .icon-blue i { color: #80AAFF; }
+  .agent-action-title { font-size: 12px; font-weight: 500; color: var(--text); margin-bottom: 3px; }
+  .agent-action-desc { font-size: 11px; color: var(--text3); line-height: 1.4; }
+
+  .agent-feed-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .agent-feed-title i { color: var(--gold-dim); font-size: 15px; }
+  .agent-feed-item {
+    background: var(--card);
+    border: 1px solid var(--border2);
+    border-radius: 10px;
+    padding: 13px;
+    margin-bottom: 8px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .agent-feed-icon {
+    width: 30px; height: 30px;
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .agent-feed-content { flex: 1; }
+  .agent-feed-action { font-size: 12px; color: var(--text); margin-bottom: 3px; font-weight: 500; }
+  .agent-feed-detail { font-size: 11px; color: var(--text2); line-height: 1.5; }
+  .agent-feed-time { font-size: 10px; color: var(--text3); margin-top: 4px; }
+
+  .agent-chat-panel {
+    background: var(--bg2);
+    border-left: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+  }
+  .chat-header {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .chat-header i { color: var(--gold-dim); }
+  .chat-messages {
+    flex: 1;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto;
+  }
+  .chat-bubble {
+    max-width: 90%;
+    padding: 10px 12px;
+    border-radius: 10px;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  .bubble-user {
+    background: rgba(201,150,10,0.15);
+    border: 1px solid rgba(201,150,10,0.25);
+    color: var(--text);
+    align-self: flex-end;
+    border-radius: 10px 10px 2px 10px;
+  }
+  .bubble-agent {
+    background: var(--card);
+    border: 1px solid var(--border2);
+    color: var(--text2);
+    align-self: flex-start;
+    border-radius: 10px 10px 10px 2px;
+  }
+  .bubble-agent strong { color: var(--gold-lt); }
+  .chat-input-area {
+    padding: 12px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .chat-input {
+    flex: 1;
+    padding: 8px 12px;
+    font-size: 12px;
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    outline: none;
+  }
+  .chat-send {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    background: rgba(201,150,10,0.2);
+    border: 1px solid rgba(201,150,10,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .chat-send i { font-size: 15px; color: var(--gold-lt); }
+
+  /* Scrollbars */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+</style>
+
+<h2 class="sr-only">Threx UI wireframes — interactive screen mockups showing Feed, Knowledge Graph, Profile, and Agent views</h2>
+
+<div class="wf-shell">
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-logo">THREX</div>
+    <div class="nav-tabs">
+      <button class="nav-tab active" onclick="showScreen('feed',this)">Feed</button>
+      <button class="nav-tab" onclick="showScreen('graph',this)">Graph</button>
+      <button class="nav-tab" onclick="showScreen('profile',this)">Profile</button>
+      <button class="nav-tab" onclick="showScreen('agent',this)">Agent</button>
+    </div>
+    <div class="nav-right">
+      <div class="nav-notif"><i class="ti ti-bell" aria-hidden="true"></i><div class="notif-dot"></div></div>
+      <div class="nav-avatar">AO</div>
+    </div>
+  </nav>
+
+  <!-- FEED SCREEN -->
+  <div class="screen active" id="screen-feed">
+    <div class="feed-layout">
+
+      <!-- Sidebar Left -->
+      <div class="sidebar-left">
+        <div class="sidebar-menu">
+          <button class="menu-item active"><i class="ti ti-home" aria-hidden="true"></i>Feed</button>
+          <button class="menu-item"><i class="ti ti-topology-star" aria-hidden="true"></i>My Graph</button>
+          <button class="menu-item"><i class="ti ti-users" aria-hidden="true"></i>Matches <span class="menu-badge">3</span></button>
+          <button class="menu-item"><i class="ti ti-message-2" aria-hidden="true"></i>Messages <span class="menu-badge">7</span></button>
+          <button class="menu-item"><i class="ti ti-robot" aria-hidden="true"></i>Agent</button>
+        </div>
+        <div class="sidebar-section">Circles</div>
+        <div class="sidebar-menu">
+          <button class="menu-item"><i class="ti ti-brain" aria-hidden="true"></i>AI Research</button>
+          <button class="menu-item"><i class="ti ti-building" aria-hidden="true"></i>Web3 Builders</button>
+          <button class="menu-item"><i class="ti ti-leaf" aria-hidden="true"></i>Biotech Africa</button>
+          <button class="menu-item"><i class="ti ti-plus" aria-hidden="true"></i>Discover circles</button>
+        </div>
+        <div class="rep-mini">
+          <div class="rep-mini-label">Your reputation</div>
+          <div class="rep-domain">
+            <span class="rep-domain-name">AI / ML</span>
+            <span class="rep-domain-score">847</span>
+          </div>
+          <div class="rep-bar-bg"><div class="rep-bar-fill" style="width:84%"></div></div>
+          <div class="rep-domain">
+            <span class="rep-domain-name">Dev Infra</span>
+            <span class="rep-domain-score">612</span>
+          </div>
+          <div class="rep-bar-bg"><div class="rep-bar-fill" style="width:61%"></div></div>
+          <div class="rep-domain">
+            <span class="rep-domain-name">Ethics</span>
+            <span class="rep-domain-score">298</span>
+          </div>
+          <div class="rep-bar-bg"><div class="rep-bar-fill" style="width:30%"></div></div>
+        </div>
+      </div>
+
+      <!-- Feed Center -->
+      <div class="feed-center">
+        <div class="feed-compose">
+          <div class="compose-avatar">AO</div>
+          <div class="compose-placeholder">Share an idea, hypothesis, or claim...</div>
+          <div class="compose-types">
+            <span class="compose-type">💡 Idea</span>
+            <span class="compose-type">⚡ Claim</span>
+            <span class="compose-type">❓ Question</span>
+          </div>
+        </div>
+
+        <div class="feed-filters">
+          <button class="filter-pill active">All</button>
+          <button class="filter-pill">Claims</button>
+          <button class="filter-pill">Essays</button>
+          <button class="filter-pill">Questions</button>
+          <button class="filter-pill">AI / ML</button>
+          <button class="filter-pill">Biotech</button>
+          <button class="filter-pill">Web3</button>
+        </div>
+
+        <!-- Node 1 -->
+        <div class="node-card">
+          <div class="node-card-header">
+            <div class="node-author-avatar av-b">KA</div>
+            <div class="node-author-info">
+              <div class="node-author-name">Kwame Asante</div>
+              <div class="node-meta">AI Research · 2h ago</div>
+            </div>
+            <span class="node-type-badge badge-claim">CLAIM</span>
+          </div>
+          <div class="node-title">Sparse attention mechanisms will replace dense transformers for long-context tasks by 2027</div>
+          <div class="node-preview">Current dense attention scales quadratically with context length, making it economically unviable beyond 1M tokens. Ring attention and linear approximations show 94% quality retention at 10x efficiency...</div>
+          <div class="node-tags">
+            <span class="node-tag">transformers</span>
+            <span class="node-tag">attention</span>
+            <span class="node-tag">efficiency</span>
+            <span class="node-tag">prediction</span>
+          </div>
+          <div class="node-footer">
+            <div class="node-action"><i class="ti ti-arrow-up" aria-hidden="true"></i>Agree (24)</div>
+            <div class="node-action"><i class="ti ti-arrow-down" aria-hidden="true"></i>Challenge (8)</div>
+            <div class="node-action"><i class="ti ti-git-branch" aria-hidden="true"></i>Build on</div>
+            <div class="node-action"><i class="ti ti-share" aria-hidden="true"></i></div>
+            <div class="node-connections"><i class="ti ti-topology-star-3" aria-hidden="true"></i>12 connections</div>
+          </div>
+        </div>
+
+        <!-- Node 2 -->
+        <div class="node-card">
+          <div class="node-card-header">
+            <div class="node-author-avatar av-c">ZB</div>
+            <div class="node-author-info">
+              <div class="node-author-name">Zara Bakr</div>
+              <div class="node-meta">Bioethics · 5h ago</div>
+            </div>
+            <span class="node-type-badge badge-hypothesis">HYPOTHESIS</span>
+          </div>
+          <div class="node-title">Regulatory sandboxes for AI systems in healthcare will create a two-tier safety standard that disadvantages low-income countries</div>
+          <div class="node-preview">When high-income nations run sandbox programs for AI diagnostics, they effectively export undertested systems to markets with weaker regulatory capacity. The asymmetry is structural...</div>
+          <div class="node-tags">
+            <span class="node-tag">AI ethics</span>
+            <span class="node-tag">healthcare</span>
+            <span class="node-tag">policy</span>
+            <span class="node-tag">Africa</span>
+          </div>
+          <div class="node-footer">
+            <div class="node-action"><i class="ti ti-arrow-up" aria-hidden="true"></i>Agree (41)</div>
+            <div class="node-action"><i class="ti ti-arrow-down" aria-hidden="true"></i>Challenge (17)</div>
+            <div class="node-action"><i class="ti ti-git-branch" aria-hidden="true"></i>Build on</div>
+            <div class="node-action"><i class="ti ti-share" aria-hidden="true"></i></div>
+            <div class="node-connections"><i class="ti ti-topology-star-3" aria-hidden="true"></i>8 connections</div>
+          </div>
+        </div>
+
+        <!-- Node 3 -->
+        <div class="node-card">
+          <div class="node-card-header">
+            <div class="node-author-avatar av-a">TM</div>
+            <div class="node-author-info">
+              <div class="node-author-name">Tunde Makinde</div>
+              <div class="node-meta">Dev Infra · 1d ago</div>
+            </div>
+            <span class="node-type-badge badge-essay">ESSAY</span>
+          </div>
+          <div class="node-title">The monorepo is not a technical choice — it is an organizational philosophy</div>
+          <div class="node-preview">Every conversation about monorepos eventually devolves into tooling arguments. But the real question is who is allowed to depend on what, and who bears the cost of that dependency...</div>
+          <div class="node-tags">
+            <span class="node-tag">monorepo</span>
+            <span class="node-tag">engineering culture</span>
+            <span class="node-tag">orgs</span>
+          </div>
+          <div class="node-footer">
+            <div class="node-action"><i class="ti ti-arrow-up" aria-hidden="true"></i>Agree (87)</div>
+            <div class="node-action"><i class="ti ti-arrow-down" aria-hidden="true"></i>Challenge (12)</div>
+            <div class="node-action"><i class="ti ti-git-branch" aria-hidden="true"></i>Build on</div>
+            <div class="node-action"><i class="ti ti-share" aria-hidden="true"></i></div>
+            <div class="node-connections"><i class="ti ti-topology-star-3" aria-hidden="true"></i>31 connections</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar Right -->
+      <div class="sidebar-right">
+        <div class="agent-status">
+          <div class="agent-status-header">
+            <div class="agent-dot"></div>
+            <div class="agent-status-label">Agent is working</div>
+          </div>
+          <div class="agent-task"><i class="ti ti-search" aria-hidden="true"></i>Scanning new nodes in AI / ML</div>
+          <div class="agent-task"><i class="ti ti-users" aria-hidden="true"></i>Found 2 new match candidates</div>
+          <div class="agent-task"><i class="ti ti-clock" aria-hidden="true"></i>Weekly digest ready</div>
+        </div>
+
+        <div class="panel-title">Suggested Matches</div>
+
+        <div class="match-card">
+          <div class="match-header">
+            <div class="node-author-avatar av-b" style="width:28px;height:28px;font-size:10px">KA</div>
+            <div>
+              <div class="match-name">Kwame Asante</div>
+              <div class="match-domain">AI Research · Lagos</div>
+            </div>
+          </div>
+          <div class="match-reason">Both working on sparse attention — you challenge his timeline, he challenges your dataset assumptions. High-tension match.</div>
+          <div class="match-score">
+            <span class="match-score-val">94% fit</span>
+            <button class="match-btn">Connect</button>
+          </div>
+        </div>
+
+        <div class="match-card">
+          <div class="match-header">
+            <div class="node-author-avatar av-c" style="width:28px;height:28px;font-size:10px">ZB</div>
+            <div>
+              <div class="match-name">Zara Bakr</div>
+              <div class="match-domain">Bioethics · Cairo</div>
+            </div>
+          </div>
+          <div class="match-reason">Your AI infrastructure work connects directly to her regulatory arguments. Complementary domains, contrarian perspectives.</div>
+          <div class="match-score">
+            <span class="match-score-val">88% fit</span>
+            <button class="match-btn">Connect</button>
+          </div>
+        </div>
+
+        <div class="panel-title" style="margin-top:16px">Active Challenges</div>
+        <div class="match-card">
+          <div style="font-size:11px;color:var(--gold-lt);font-weight:600;margin-bottom:4px">Open Problem</div>
+          <div style="font-size:12px;color:var(--text);margin-bottom:4px">Efficient inference for 100B+ parameter models on commodity hardware</div>
+          <div style="font-size:11px;color:var(--text3)">Posted by DeepMind Africa · $5,000</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- GRAPH SCREEN -->
+  <div class="screen" id="screen-graph">
+    <div class="graph-screen">
+      <div class="graph-toolbar">
+        <button class="graph-toolbar-btn primary"><i class="ti ti-plus" aria-hidden="true"></i>New Node</button>
+        <input class="graph-search" placeholder="Search nodes..." type="text" />
+        <button class="graph-toolbar-btn"><i class="ti ti-filter" aria-hidden="true"></i>Filter</button>
+        <button class="graph-toolbar-btn"><i class="ti ti-layout-grid" aria-hidden="true"></i>Cluster</button>
+        <button class="graph-toolbar-btn"><i class="ti ti-maximize" aria-hidden="true"></i>Expand</button>
+        <div style="margin-left:auto;font-size:11px;color:var(--text3)">47 nodes · 128 connections</div>
+      </div>
+      <div class="graph-main">
+        <div class="graph-canvas">
+          <svg class="graph-svg" viewBox="0 0 680 480" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="glow-gold" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#C9960A" stop-opacity="0.25"/>
+                <stop offset="100%" stop-color="#C9960A" stop-opacity="0"/>
+              </radialGradient>
+              <radialGradient id="glow-orange" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#D4540A" stop-opacity="0.2"/>
+                <stop offset="100%" stop-color="#D4540A" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+
+            <!-- Background glow spots -->
+            <ellipse cx="300" cy="220" rx="180" ry="140" fill="url(#glow-gold)" opacity="0.6"/>
+            <ellipse cx="480" cy="160" rx="100" ry="80" fill="url(#glow-orange)" opacity="0.5"/>
+
+            <!-- Connection lines -->
+            <g stroke="#2E2200" stroke-width="1" fill="none">
+              <line x1="300" y1="200" x2="160" y2="140"/>
+              <line x1="300" y1="200" x2="430" y2="130"/>
+              <line x1="300" y1="200" x2="200" y2="310"/>
+              <line x1="300" y1="200" x2="420" y2="290"/>
+              <line x1="300" y1="200" x2="490" y2="200"/>
+              <line x1="160" y1="140" x2="90" y2="240"/>
+              <line x1="430" y1="130" x2="540" y2="80"/>
+              <line x1="430" y1="130" x2="490" y2="200"/>
+              <line x1="420" y1="290" x2="490" y2="200"/>
+              <line x1="200" y1="310" x2="120" y2="390"/>
+              <line x1="420" y1="290" x2="380" y2="380"/>
+            </g>
+
+            <!-- Strong connections (highlighted) -->
+            <g stroke="#8A6400" stroke-width="1.5" fill="none">
+              <line x1="300" y1="200" x2="160" y2="140"/>
+              <line x1="300" y1="200" x2="430" y2="130"/>
+              <line x1="300" y1="200" x2="420" y2="290"/>
+            </g>
+
+            <!-- Central selected node -->
+            <circle cx="300" cy="200" r="32" fill="#1C1600" stroke="#C9960A" stroke-width="2"/>
+            <circle cx="300" cy="200" r="36" fill="none" stroke="#C9960A" stroke-width="0.5" opacity="0.4"/>
+            <text x="300" y="196" text-anchor="middle" fill="#F0B429" font-size="9" font-family="DM Sans" font-weight="600">Sparse</text>
+            <text x="300" y="208" text-anchor="middle" fill="#F0B429" font-size="9" font-family="DM Sans" font-weight="600">Attention</text>
+
+            <!-- Connected nodes - medium -->
+            <circle cx="160" cy="140" r="22" fill="#1C1600" stroke="#8A6400" stroke-width="1.5"/>
+            <text x="160" y="137" text-anchor="middle" fill="#C9960A" font-size="8" font-family="DM Sans">Linear</text>
+            <text x="160" y="148" text-anchor="middle" fill="#C9960A" font-size="8" font-family="DM Sans">Attn</text>
+
+            <circle cx="430" cy="130" r="24" fill="#1C1600" stroke="#8A6400" stroke-width="1.5"/>
+            <text x="430" y="127" text-anchor="middle" fill="#C9960A" font-size="8" font-family="DM Sans">Transformer</text>
+            <text x="430" y="138" text-anchor="middle" fill="#C9960A" font-size="8" font-family="DM Sans">Scaling</text>
+
+            <circle cx="420" cy="290" r="22" fill="#1C1600" stroke="#8A6400" stroke-width="1.5"/>
+            <text x="420" y="287" text-anchor="middle" fill="#C9960A" font-size="8" font-family="DM Sans">Inference</text>
+            <text x="420" y="298" text-anchor="middle" fill="#C9960A" font-size="8" font-family="DM Sans">Cost</text>
+
+            <!-- Orange cluster - different domain -->
+            <circle cx="490" cy="200" r="20" fill="#160800" stroke="#7A3000" stroke-width="1.5"/>
+            <text x="490" y="197" text-anchor="middle" fill="#E07A00" font-size="8" font-family="DM Sans">GPU</text>
+            <text x="490" y="208" text-anchor="middle" fill="#E07A00" font-size="8" font-family="DM Sans">Infra</text>
+
+            <circle cx="200" cy="310" r="18" fill="#160800" stroke="#7A3000" stroke-width="1.2"/>
+            <text x="200" y="313" text-anchor="middle" fill="#E07A00" font-size="8" font-family="DM Sans">Memory</text>
+
+            <!-- Small peripheral nodes -->
+            <circle cx="90" cy="240" r="14" fill="#110E02" stroke="#2E2200" stroke-width="1"/>
+            <text x="90" y="244" text-anchor="middle" fill="#5A4820" font-size="7" font-family="DM Sans">RLHF</text>
+
+            <circle cx="540" cy="80" r="14" fill="#110E02" stroke="#2E2200" stroke-width="1"/>
+            <text x="540" y="84" text-anchor="middle" fill="#5A4820" font-size="7" font-family="DM Sans">MoE</text>
+
+            <circle cx="120" cy="390" r="12" fill="#110E02" stroke="#2E2200" stroke-width="1"/>
+            <text x="120" y="394" text-anchor="middle" fill="#5A4820" font-size="7" font-family="DM Sans">KV Cache</text>
+
+            <circle cx="380" cy="380" r="12" fill="#110E02" stroke="#2E2200" stroke-width="1"/>
+            <text x="380" y="384" text-anchor="middle" fill="#5A4820" font-size="7" font-family="DM Sans">Quant</text>
+
+            <!-- Contradiction indicator -->
+            <circle cx="580" cy="310" r="18" fill="#1A0000" stroke="#7A1A00" stroke-width="1.5" stroke-dasharray="4,3"/>
+            <text x="580" y="307" text-anchor="middle" fill="#FF4444" font-size="8" font-family="DM Sans">Dense</text>
+            <text x="580" y="318" text-anchor="middle" fill="#FF4444" font-size="8" font-family="DM Sans">Attn</text>
+            <line x1="430" y1="130" x2="562" y2="296" stroke="#7A1A00" stroke-width="1" stroke-dasharray="4,3"/>
+            <text x="500" y="215" text-anchor="middle" fill="#FF4444" font-size="9" font-family="DM Sans">⚡</text>
+
+            <!-- Legend -->
+            <rect x="20" y="420" width="200" height="48" rx="6" fill="#1C1600" stroke="#2E2200" stroke-width="1"/>
+            <circle cx="36" cy="432" r="5" fill="none" stroke="#C9960A" stroke-width="1.5"/>
+            <text x="46" y="436" fill="#A89060" font-size="8" font-family="DM Sans">Selected node</text>
+            <circle cx="36" cy="448" r="5" fill="none" stroke="#7A3000" stroke-width="1.5"/>
+            <text x="46" y="452" fill="#A89060" font-size="8" font-family="DM Sans">Related domain</text>
+            <circle cx="116" cy="432" r="5" fill="none" stroke="#7A1A00" stroke-width="1.5" stroke-dasharray="3,2"/>
+            <text x="126" y="436" fill="#A89060" font-size="8" font-family="DM Sans">Contradiction</text>
+            <line x1="112" y1="448" x2="122" y2="448" stroke="#8A6400" stroke-width="1.5"/>
+            <text x="126" y="452" fill="#A89060" font-size="8" font-family="DM Sans">Strong link</text>
+          </svg>
+        </div>
+
+        <div class="graph-side">
+          <div class="graph-node-detail">
+            <div class="graph-node-type">⚡ Claim · Selected</div>
+            <div class="graph-node-title">Sparse attention mechanisms will replace dense transformers for long-context tasks by 2027</div>
+            <div class="graph-node-meta">By Kwame Asante · 2h ago · AI Research</div>
+            <div style="display:flex;gap:6px;margin-top:8px">
+              <span class="node-type-badge badge-claim">Staked</span>
+              <span style="font-size:10px;color:var(--text3);padding:3px 8px">24 agree · 8 challenge</span>
+            </div>
+          </div>
+
+          <div class="panel-title">AI Connections (12)</div>
+          <div class="connection-list">
+            <div class="connection-item"><i class="ti ti-link" aria-hidden="true" style="font-size:12px;color:var(--gold-dim)"></i>Linear Attention Survey (2024)<span class="connection-strength">94%</span></div>
+            <div class="connection-item"><i class="ti ti-link" aria-hidden="true" style="font-size:12px;color:var(--gold-dim)"></i>Transformer Scaling Laws<span class="connection-strength">89%</span></div>
+            <div class="connection-item"><i class="ti ti-link" aria-hidden="true" style="font-size:12px;color:var(--gold-dim)"></i>GPU Memory Bottlenecks<span class="connection-strength">81%</span></div>
+            <div class="connection-item" style="border-left:2px solid #7A1A00;background:#1A0000"><i class="ti ti-bolt" aria-hidden="true" style="font-size:12px;color:#FF4444"></i>Dense Attn Still Optimal (claim)<span class="connection-strength" style="color:#FF4444">CONTRA</span></div>
+            <div class="connection-item"><i class="ti ti-link" aria-hidden="true" style="font-size:12px;color:var(--gold-dim)"></i>Inference cost projections<span class="connection-strength">77%</span></div>
+          </div>
+
+          <div class="panel-title" style="margin-top:16px">People working on this</div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div class="connection-item"><div class="node-author-avatar av-b" style="width:22px;height:22px;font-size:9px">KA</div>Kwame Asante<span class="connection-strength">Author</span></div>
+            <div class="connection-item"><div class="node-author-avatar av-a" style="width:22px;height:22px;font-size:9px">TM</div>Tunde Makinde<span class="connection-strength">Cited</span></div>
+            <div class="connection-item"><div class="node-author-avatar av-c" style="width:22px;height:22px;font-size:9px">ZB</div>Zara Bakr<span class="connection-strength">Adjacent</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROFILE SCREEN -->
+  <div class="screen" id="screen-profile">
+    <div class="profile-layout">
+      <div class="profile-hero">
+        <div class="profile-hero-bg"></div>
+        <div class="profile-top">
+          <div class="profile-avatar">AO</div>
+          <div style="flex:1">
+            <div class="profile-name">Adaeze Okonkwo</div>
+            <div class="profile-handle">@adaeze · Full-stack engineer & AI researcher · Lagos, Nigeria</div>
+            <div class="profile-bio">Building at the intersection of distributed systems and language models. Previously: systems engineering at Andela. Interested in AI for low-resource languages.</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end">
+            <button style="padding:7px 16px;font-size:12px;border-radius:8px;background:rgba(201,150,10,0.15);color:var(--gold-lt);border:1px solid rgba(201,150,10,0.35);cursor:pointer;font-family:'DM Sans',sans-serif">Edit Profile</button>
+            <button style="padding:7px 16px;font-size:12px;border-radius:8px;background:var(--bg3);color:var(--text2);border:1px solid var(--border2);cursor:pointer;font-family:'DM Sans',sans-serif">Share</button>
+          </div>
+        </div>
+
+        <div class="profile-stats">
+          <div class="pstat"><span class="pstat-val">47</span><span class="pstat-label">Nodes</span></div>
+          <div class="pstat"><span class="pstat-val">312</span><span class="pstat-label">Citations</span></div>
+          <div class="pstat"><span class="pstat-val">28</span><span class="pstat-label">Connections</span></div>
+          <div class="pstat"><span class="pstat-val">94%</span><span class="pstat-label">Pred. accuracy</span></div>
+        </div>
+
+        <div class="profile-tags">
+          <span class="profile-tag gold">🧠 AI / ML</span>
+          <span class="profile-tag gold">⚙️ Dev Infra</span>
+          <span class="profile-tag">Bioethics</span>
+          <span class="profile-tag">Systems thinking</span>
+          <span class="profile-tag">Open to collaborating</span>
+          <span class="profile-tag">Mentor</span>
+        </div>
+      </div>
+
+      <div class="rep-section">
+        <div class="rep-section-title"><i class="ti ti-star" aria-hidden="true"></i>Reputation Scores</div>
+        <div class="rep-grid">
+          <div class="rep-item">
+            <div class="rep-item-domain">AI / ML</div>
+            <div class="rep-item-score">847</div>
+            <div class="rep-item-rank">Top 3% globally</div>
+            <div class="rep-item-bar-bg"><div class="rep-item-bar bar-gold" style="width:84%"></div></div>
+          </div>
+          <div class="rep-item">
+            <div class="rep-item-domain">Dev Infrastructure</div>
+            <div class="rep-item-score">612</div>
+            <div class="rep-item-rank">Top 8% globally</div>
+            <div class="rep-item-bar-bg"><div class="rep-item-bar bar-orange" style="width:61%"></div></div>
+          </div>
+          <div class="rep-item">
+            <div class="rep-item-domain">Bioethics</div>
+            <div class="rep-item-score">298</div>
+            <div class="rep-item-rank">Top 22% globally</div>
+            <div class="rep-item-bar-bg"><div class="rep-item-bar bar-amber" style="width:30%"></div></div>
+          </div>
+          <div class="rep-item">
+            <div class="rep-item-domain">Systems Design</div>
+            <div class="rep-item-score">441</div>
+            <div class="rep-item-rank">Top 14% globally</div>
+            <div class="rep-item-bar-bg"><div class="rep-item-bar bar-gold" style="width:44%"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rep-section">
+        <div class="rep-section-title"><i class="ti ti-award" aria-hidden="true"></i>Reputation Badges</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <div style="padding:6px 12px;background:rgba(201,150,10,0.12);border:1px solid rgba(201,150,10,0.3);border-radius:8px;font-size:11px;color:var(--gold-lt)">🔮 Early Caller (×4)</div>
+          <div style="padding:6px 12px;background:rgba(212,84,10,0.12);border:1px solid rgba(212,84,10,0.3);border-radius:8px;font-size:11px;color:var(--orange-lt)">⚡ Constructive Contrarian</div>
+          <div style="padding:6px 12px;background:rgba(224,122,0,0.12);border:1px solid rgba(224,122,0,0.3);border-radius:8px;font-size:11px;color:var(--amber)">🌉 Bridge Builder (×2)</div>
+          <div style="padding:6px 12px;background:rgba(80,180,100,0.1);border:1px solid rgba(80,180,100,0.2);border-radius:8px;font-size:11px;color:#60C080">🧬 Evidence Changer</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AGENT SCREEN -->
+  <div class="screen" id="screen-agent">
+    <div class="agent-layout">
+      <div class="agent-main">
+        <div class="agent-hero">
+          <div class="agent-orb"><i class="ti ti-robot" aria-hidden="true"></i></div>
+          <div class="agent-hero-text">
+            <div class="agent-hero-title">Your Threx Agent</div>
+            <div class="agent-hero-sub">Working on 3 tasks · Last action 4 minutes ago · 847 actions this month</div>
+          </div>
+          <div class="agent-status-pill"><i class="ti ti-loader" aria-hidden="true"></i>Active</div>
+        </div>
+
+        <div class="agent-actions-grid">
+          <div class="agent-action-card">
+            <div class="agent-action-icon icon-gold"><i class="ti ti-search" aria-hidden="true"></i></div>
+            <div class="agent-action-title">Research Brief</div>
+            <div class="agent-action-desc">Ask your agent to research a topic and build a knowledge brief from your graph + the web</div>
+          </div>
+          <div class="agent-action-card">
+            <div class="agent-action-icon icon-orange"><i class="ti ti-users" aria-hidden="true"></i></div>
+            <div class="agent-action-title">Find Collaborators</div>
+            <div class="agent-action-desc">Run a deep match across the network for a specific goal or project</div>
+          </div>
+          <div class="agent-action-card">
+            <div class="agent-action-icon icon-amber"><i class="ti ti-bulb" aria-hidden="true"></i></div>
+            <div class="agent-action-title">Incubate Idea</div>
+            <div class="agent-action-desc">Describe a half-formed idea — agent finds context, gaps, and people to develop it with</div>
+          </div>
+          <div class="agent-action-card">
+            <div class="agent-action-icon icon-blue"><i class="ti ti-radar" aria-hidden="true"></i></div>
+            <div class="agent-action-title">Opportunity Scan</div>
+            <div class="agent-action-desc">Scan for grants, open roles, and challenges relevant to your knowledge graph</div>
+          </div>
+        </div>
+
+        <div class="agent-feed-title"><i class="ti ti-activity" aria-hidden="true"></i>Recent Agent Actions</div>
+
+        <div class="agent-feed-item">
+          <div class="agent-feed-icon icon-gold"><i class="ti ti-topology-star" aria-hidden="true" style="font-size:15px;color:var(--gold-lt)"></i></div>
+          <div class="agent-feed-content">
+            <div class="agent-feed-action">Found connection: your node connects to Kwame's research</div>
+            <div class="agent-feed-detail">Your 2023 note on "quadratic attention cost" semantically overlaps (91%) with Kwame Asante's new claim. You should see this node.</div>
+            <div class="agent-feed-time">4 minutes ago</div>
+          </div>
+        </div>
+
+        <div class="agent-feed-item">
+          <div class="agent-feed-icon icon-orange"><i class="ti ti-users" aria-hidden="true" style="font-size:15px;color:var(--orange-lt)"></i></div>
+          <div class="agent-feed-content">
+            <div class="agent-feed-action">Match candidates updated — 2 new suggestions</div>
+            <div class="agent-feed-detail">Ran matching pipeline against your graph. Added Kwame Asante (94% fit) and Zara Bakr (88% fit) to your suggestions. Reason: high tension, high semantic overlap.</div>
+            <div class="agent-feed-time">2 hours ago</div>
+          </div>
+        </div>
+
+        <div class="agent-feed-item">
+          <div class="agent-feed-icon icon-amber"><i class="ti ti-mail" aria-hidden="true" style="font-size:15px;color:var(--amber)"></i></div>
+          <div class="agent-feed-content">
+            <div class="agent-feed-action">Weekly intelligence digest ready</div>
+            <div class="agent-feed-detail">Your digest for this week covers: 8 new nodes in AI / ML, 3 predictions resolved, 2 open challenges in your domains, and 1 grant deadline (NSF AI Infrastructure, due in 14 days).</div>
+            <div class="agent-feed-time">8 hours ago</div>
+          </div>
+        </div>
+
+        <div class="agent-feed-item">
+          <div class="agent-feed-icon icon-blue"><i class="ti ti-radar" aria-hidden="true" style="font-size:15px;color:#80AAFF"></i></div>
+          <div class="agent-feed-content">
+            <div class="agent-feed-action">Opportunity found: DeepMind Africa challenge matches your expertise</div>
+            <div class="agent-feed-detail">"Efficient inference for 100B+ models on commodity hardware" — $5,000 prize. Your reputation in AI / ML (847) and Dev Infra (612) makes you a strong candidate.</div>
+            <div class="agent-feed-time">1 day ago</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chat panel -->
+      <div class="agent-chat-panel">
+        <div class="chat-header"><i class="ti ti-message-circle" aria-hidden="true"></i>Ask your agent</div>
+        <div class="chat-messages">
+          <div class="chat-bubble bubble-agent">I've been working while you were away. Found <strong>2 new match candidates</strong> and a connection between your old note and Kwame's new claim. Want me to brief you?</div>
+          <div class="chat-bubble bubble-user">Yes — and find me people working on AI for Yoruba and Igbo language models</div>
+          <div class="chat-bubble bubble-agent">Searching your graph and the network for low-resource African language AI work... I'll cross-reference with your Dev Infra domain and find people with overlapping interests. <strong>Give me 30 seconds.</strong></div>
+          <div class="chat-bubble bubble-agent">Found <strong>4 candidates</strong>: 2 researchers at Masakhane, 1 PhD student at UCT, and 1 engineer at Lelapa AI. All working on Yoruba or Igbo NLP. Shall I draft introduction requests?</div>
+          <div class="chat-bubble bubble-user">Yes, draft them and send when ready</div>
+          <div class="chat-bubble bubble-agent">Drafting agent-to-agent introduction requests now. I'll check their agents' availability and confirm before any human contact is initiated. <strong>You'll approve before anything is sent.</strong></div>
+        </div>
+        <div class="chat-input-area">
+          <input class="chat-input" placeholder="Ask your agent anything..." type="text"/>
+          <div class="chat-send"><i class="ti ti-send" aria-hidden="true"></i></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function showScreen(name, btn) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('screen-' + name).classList.add('active');
+  btn.classList.add('active');
+}
+</script>

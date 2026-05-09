@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
+import NotificationCenter from '../notifications/NotificationCenter';
 
 interface AppShellProps {
   children: React.ReactNode;
@@ -57,10 +58,7 @@ export default function AppShell({ children, profile }: AppShellProps) {
             {rightOpen ? '◀ Agent' : 'Agent ▶'}
           </button>
 
-          <div className="nav-notif" style={{ flexShrink: 0 }}>
-            <span className="notif-dot"></span>
-            <i style={{ color: 'var(--text2)', fontSize: '14px' }}>🔔</i>
-          </div>
+          <NotificationCenter userId={profile?.id} />
 
           <a
             href="/settings/profile"

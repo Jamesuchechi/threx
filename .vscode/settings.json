@@ -1,0 +1,5 @@
+{
+  "python.defaultInterpreterPath": "./ai-service/.venv/bin/python",
+  "python.analysis.extraPaths": ["./ai-service"],
+  "python.analysis.useLibraryCodeForTypes": true
+}

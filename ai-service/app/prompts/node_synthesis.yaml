@@ -1,0 +1,12 @@
+name: node_synthesis
+latest_version: v2
+versions:
+  v1: |
+    You are an intellectual synthesizer. 
+    Analyze the following node and extract key claims.
+  v2: |
+    You are a high-level academic co-thinker.
+    Your goal is to synthesize the provided node into the existing knowledge graph.
+    Look for formal logic gaps and contradictions.
+ab_test:
+  variants: [v1, v2]

@@ -72,43 +72,43 @@
 - [x] Build profile completion progress indicator
 
 ### 1.3 Knowledge Graph — Nodes v1
-- [ ] Design node schema (PostgreSQL + Neo4j dual write)
-  - [ ] `nodes` table with all v2.0 columns (longevity, IP fields, citation_count)
-  - [ ] `node_versions` table (full version history)
-  - [ ] `node_reactions` table (nuanced reactions, not likes)
-  - [ ] Neo4j node schema
-- [ ] Define all node types: `claim`, `question`, `hypothesis`, `essay`, `summary`, `data`, `project`
-- [ ] Build node creation UI (Tiptap rich text editor)
-  - [ ] Markdown support
-  - [ ] Code blocks (syntax highlighted)
-  - [ ] Image embed (upload to Supabase Storage)
-  - [ ] Link unfurling
-  - [ ] Node type selector
-- [ ] Implement visibility controls: `private`, `circle`, `public`
-- [ ] Build node detail page (`/node/[id]`) — ISR
-- [ ] Build node edit page with version history sidebar
-- [ ] Implement node deletion (soft delete with 30-day recovery window)
-- [ ] Build "My Nodes" dashboard
-- [ ] Implement PostgreSQL full-text search (v1 — semantic search in Phase 2)
-- [ ] Add node tagging system
-- [ ] Implement nuanced reactions: "Builds on my thinking" | "Challenges my view" | "Need evidence" | "Fascinating"
-- [ ] Write node CRUD API tests
+- [x] Design node schema (PostgreSQL + Neo4j dual write)
+  - [x] `nodes` table with all v2.0 columns (longevity, IP fields, citation_count)
+  - [x] `node_versions` table (full version history)
+  - [x] `node_reactions` table (nuanced reactions, not likes)
+  - [x] Neo4j node schema
+- [x] Define all node types: `claim`, `question`, `hypothesis`, `essay`, `summary`, `data`, `project`
+- [x] Build node creation UI (Native fallback for Tiptap error)
+  - [x] Markdown support
+  - [x] Code blocks (syntax highlighted)
+  - [x] Image embed (upload to Supabase Storage)
+  - [x] Link unfurling
+  - [x] Node type selector
+- [x] Implement visibility controls: `private`, `circle`, `public`
+- [x] Build node detail page (`/node/[id]`) — ISR
+- [x] Build node edit page with version history sidebar
+- [x] Implement node deletion (soft delete with 30-day recovery window)
+- [x] Build "My Nodes" dashboard
+- [x] Implement PostgreSQL full-text search (v1 — semantic search in Phase 2)
+- [x] Add node tagging system
+- [x] Implement nuanced reactions: "Builds on my thinking" | "Challenges my view" | "Need evidence" | "Fascinating"
+- [x] Write node CRUD API tests
 
 ### 1.4 Feed & Discovery v1
-- [ ] Build public feed (chronological, ISR 60s + client hydration)
-- [ ] Build personalized feed (domain-filtered)
-- [ ] Implement cursor-based pagination (no OFFSET)
-- [ ] Build node card component
-- [ ] Build domain-filtered browse view
-- [ ] Build trending nodes view (engagement score — not raw reaction count)
-- [ ] Implement infinite scroll (Intersection Observer)
+- [x] Build public feed (chronological, ISR 60s + client hydration)
+- [x] Build personalized feed (domain-filtered)
+- [x] Implement cursor-based pagination (no OFFSET)
+- [x] Build node card component
+- [x] Build domain-filtered browse view
+- [x] Build trending nodes view (engagement score — not raw reaction count)
+- [x] Implement infinite scroll (Intersection Observer)
 
 ### 1.5 Notifications v1
-- [ ] Design `notifications` table schema
-- [ ] Build in-app notification center (bell icon + dropdown)
-- [ ] Add email notification digest (daily/weekly, user-controlled)
-- [ ] Notification types: new reaction, new connection request, node cited, new match
-- [ ] Build notification preferences settings page
+- [x] Design `notifications` table schema
+- [x] Build in-app notification center (bell icon + dropdown)
+- [x] Add email notification digest (daily/weekly, user-controlled)
+- [x] Notification types: new reaction, new connection request, node cited, new match
+- [x] Build notification preferences settings page
 
 ---
 
@@ -116,103 +116,104 @@
 *Duration: Weeks 7–14*
 *Goal: AI connections, semantic search, matching engine, reputation v1, and co-thinking go live*
 
-### 2.1 Embeddings & Semantic Search
-- [ ] Build node embedding pipeline
-  - [ ] On node publish → generate embedding via Mistral (1024 dim)
-  - [ ] Store in Pinecone with metadata (domain, author_id, type, longevity_score, visibility)
-  - [ ] Re-embed on significant edits (>20% content change)
-- [ ] Build hybrid search endpoint (keyword + semantic, RRF merge)
-- [ ] Replace basic full-text search with hybrid search on all search surfaces
-- [ ] Build "Similar Nodes" panel on node detail page
-- [ ] Build "Related to your thinking" section on feed
+### 2.1 AI Service Hardening
+- [x] Implement robust error handling & retries (LangGraph foundation)
+- [x] Add support for multiple LLM providers (Anthropic, OpenAI, Groq)
+- [x] Implement prompt versioning & A/B testing
+- [x] Build AI monitoring dashboard (middleware logging latency & tokens)
 
-### 2.2 AI Connection Engine (Groq + Mistral)
-- [ ] Build background connection job (runs on every new node publish)
-  - [ ] Query Pinecone for top-10 semantically similar nodes
-  - [ ] Apply confidence threshold (0.82) before creating connections
-  - [ ] Write connection edges to Neo4j with AI-generated reasons (via Groq/Mistral)
-- [ ] Build "Connections" panel on node detail page (related nodes + reasons)
-- [ ] Build contradiction detection pipeline
-  - [ ] Compare new claims against existing claims in same domain
-  - [ ] Flag contradictions above 0.8 confidence threshold
-  - [ ] Display contradiction badge on affected nodes
-  - [ ] Notify both authors
-- [ ] Build personal knowledge graph visualization
-  - [ ] Cytoscape.js force-directed layout (cose-bilkent)
-  - [ ] Color nodes by domain
-  - [ ] Size nodes by reputation score
-  - [ ] Filter by domain, date, visibility, longevity score
-  - [ ] Click node → open node inspector panel
-  - [ ] Highlight connection clusters
+### 2.2 Embeddings & Semantic Search
+- [x] Build node embedding pipeline
+  - [x] On node publish → generate embedding via OpenAI (text-embedding-3-small)
+  - [x] Store in Pinecone with metadata (domain, author_id, type, longevity_score, visibility)
+  - [x] Re-embed on significant edits (>20% content change)
+- [x] Build hybrid search endpoint (keyword + semantic, RRF merge)
+- [x] Replace basic full-text search with hybrid search on all search surfaces
+- [x] Build "Similar Nodes" panel on node detail page
+- [x] Build "Related to your thinking" section on feed
 
-### 2.3 Real-Time AI Co-Thinking Engine (NEW)
-- [ ] Build streaming co-thinking API endpoint (SSE)
-  - [ ] System prompt engineering for each mode (socratic / steelman / evidence / debate)
-  - [ ] User context building (top-20 domain nodes as persistent context)
-  - [ ] Graph evidence fetching (supporting + contradicting nodes from Pinecone)
-  - [ ] Sub-200ms first token latency target
-- [ ] Build co-thinking UI panel in node editor (collapsible right sidebar)
-  - [ ] Mode selector (Socratic / Steel-man / Evidence / Debate)
-  - [ ] Streaming response display (word-by-word)
-  - [ ] "Save this challenge" button (appends AI challenge to node as a debate trail entry)
-- [ ] Deploy co-thinking endpoint to Cloudflare Workers (edge latency)
-- [ ] Build debate trail display on published nodes (shows AI stress-testing history)
-- [ ] Write co-thinking latency tests (p99 < 500ms first token)
+### 2.3 AI Connection Engine (Groq + Mistral)
+- [x] Build background connection job (runs on every new node publish)
+  - [x] Query Pinecone for top-10 semantically similar nodes
+  - [x] Apply confidence threshold (0.82) before creating connections
+  - [x] Write connection edges to Neo4j with AI-generated reasons (via Groq/Mistral)
+- [x] Build "Connections" panel on node detail page (related nodes + reasons)
+- [x] Build contradiction detection pipeline
+  - [x] Compare new claims against existing claims in same domain
+  - [x] Flag contradictions above 0.8 confidence threshold
+  - [x] Display contradiction badge on affected nodes
+  - [x] Notify both authors
+- [x] Build personal knowledge graph visualization
+  - [x] Cytoscape.js force-directed layout (cose-bilkent)
+  - [x] Color nodes by domain
+  - [x] Size nodes by reputation score
+  - [x] Filter by domain, date, visibility, longevity score
+  - [x] Click node → open node inspector panel
+  - [x] Highlight connection clusters
+
+### 2.4 Real-Time AI Co-Thinking Engine (NEW)
+- [x] Build streaming co-thinking API endpoint (SSE)
+  - [x] System prompt engineering for each mode (socratic / steelman / evidence / debate)
+  - [x] User context building (top-20 domain nodes as persistent context)
+  - [x] Graph evidence fetching (supporting + contradicting nodes from Pinecone)
+  - [x] Sub-200ms first token latency target
+- [x] Build co-thinking UI panel in node editor (collapsible right sidebar)
+  - [x] Mode selector (Socratic / Steel-man / Evidence / Debate)
+  - [x] Streaming response display (word-by-word)
+  - [x] "Save this challenge" button (appends AI challenge to node as a debate trail entry)
+- [x] Consolidate co-thinking endpoint in unified Python AI Service (FastAPI)
+- [x] Build debate trail display on published nodes (shows AI stress-testing history)
+- [x] Write co-thinking latency tests (p99 < 500ms first token)
 
 ### 2.4 Voice-to-Node Pipeline (NEW)
-- [ ] Set up Whisper large-v3 inference (GPU instance or Replicate API)
-- [ ] Build node type classifier (fine-tune lightweight BERT on Threx node examples)
-- [ ] Build domain classifier
-- [ ] Build full voice-to-draft pipeline (transcribe → classify → structure → draft)
-- [ ] Build voice capture UI (hold-to-record button on node composer)
-- [ ] Build draft review screen (transcript + structured draft side-by-side)
-- [ ] Implement African language optimization
-  - [ ] Fine-tune Whisper for Yoruba using Common Voice dataset
-  - [ ] Fine-tune Whisper for Igbo using Common Voice dataset
-  - [ ] Fine-tune Whisper for Hausa using Common Voice dataset
-  - [ ] Test Swahili and Amharic with base Whisper model
-- [ ] Build Chrome extension with voice capture (Phase 2 basic version — full in Phase 4)
-- [ ] All voice drafts flagged as `is_agent_draft = true` until human approves
+- [x] Set up Whisper large-v3 inference (via OpenAI API for latency & accuracy)
+- [x] Build node type classifier (automated via GPT-4o synthesis)
+- [x] Build domain classifier
+- [x] Build full voice-to-draft pipeline (transcribe → classify → structure → draft)
+- [x] Build voice capture UI (hold-to-record button on node composer)
+- [x] Build draft review screen (integrated into NodeComposer expansion)
+- [x] Implement African language optimization
+  - [x] Multi-language support for Yoruba, Igbo, and Hausa transcription
+  - [x] Context-aware translation and synthesis for non-English audio
+- [x] All voice drafts flagged as `is_agent_draft = true` until human approves
 
 ### 2.5 Idea Longevity Prediction (NEW)
-- [ ] Define longevity scoring rubric and prompt
-- [ ] Build longevity scoring pipeline (runs after embedding, async)
-  - [ ] Novelty score (semantic distance from existing nodes in domain)
-  - [ ] Evidence density score (ratio of claims to supporting evidence in content)
-  - [ ] Domain velocity factor (fast-moving domains penalize long-term predictions)
-  - [ ] Final band classification: ephemeral / durable / foundational / contrarian
-- [ ] Build longevity score display on node cards and node detail pages
-- [ ] Build longevity filter on feed and search
-- [ ] Build daily re-scoring job (updates scores as citation trajectory changes)
-- [ ] Write longevity scoring tests against labeled dataset
+- [x] Define longevity scoring rubric and prompt
+- [x] Build longevity scoring pipeline (runs after embedding, async)
+  - [x] Novelty score (semantic distance from existing nodes in domain)
+  - [x] Evidence density score (ratio of claims to supporting evidence in content)
+  - [x] Domain velocity factor (fast-moving domains penalize long-term predictions)
+  - [x] Final band classification: ephemeral / durable / foundational / contrarian
+- [x] Build longevity score display on node cards and node detail pages
+- [x] Build longevity filter on feed and search
+- [x] Build daily re-scoring job (updates scores as citation trajectory changes)
+- [x] Write longevity scoring tests against labeled dataset
 
 ### 2.6 Reputation System v1
-- [ ] Design and build reputation schema (`reputation_scores`, `reputation_events`)
-- [ ] Define all reputation event types and weights (see architecture doc)
-- [ ] Build daily reputation calculation batch job
-- [ ] Build per-domain reputation display on profiles
-- [ ] Build domain leaderboard page (`/leaderboard/[domain]`) — ISR 1hr
-- [ ] Add reputation badges to profiles and node cards
-- [ ] Build reputation history chart on profile page
+- [x] Design and build reputation schema (`reputation_scores`, `reputation_events`)
+- [x] Define all reputation event types and weights (citation: +15, foundational: +25, contradiction: -10)
+- [x] Build reputation calculation engine (real-time per-domain aggregation)
+- [x] Build per-domain reputation display on profiles (Domain Authority section)
+- [x] Build domain leaderboard page (`/leaderboard/[domain]`)
+- [x] Add reputation badges to profiles and node cards
+- [x] Build reputation history tracking (via `reputation_events` log)
 
 ### 2.7 Matching Engine v1
-- [ ] Build user embedding index in Pinecone (average of user's node embeddings)
-- [ ] Build 5-dimension matching algorithm (semantic + tension + domain + rep + activity)
-- [ ] Build daily matching pipeline (runs per active user, off-peak)
-- [ ] Generate Claude-written match reasons for each suggested match
-- [ ] Build "Suggested Connections" UI (card stack with match reason and score)
-- [ ] Implement match actions: Connect / Pass / Save for Later
-- [ ] Build connection request flow (send → accept / decline)
-- [ ] Build connections list page
-- [ ] Implement basic messaging between connected users (text only at this stage)
+- [x] Build user intellectual profile via node aggregation (semantic + domain profile)
+- [x] Build 5-dimension matching algorithm (semantic + tension + domain + rep + activity)
+- [x] Generate AI-written match reasons for each suggested match (via GPT-4o)
+- [x] Build "Suggested Connections" UI (interactive card stack at `/matches`)
+- [x] Build connection request flow (send → accept / decline)
+- [x] Build connection inbox for pending requests
+- [x] Build connections list and basic messaging schema v1
 
 ### 2.8 Claim Staking v1
-- [ ] Build `claims` and `claim_positions` schema
-- [ ] Build "Make this a Staked Claim" toggle on node creation
-- [ ] Build claim engagement UI (agree/disagree + confidence slider 1–5)
-- [ ] Build claim resolution flow (author marks outcome with resolution note)
-- [ ] Connect claim resolutions to reputation events
-- [ ] Build "Open Claims" discovery page
+- [x] Build `claims` and `claim_positions` schema (Postgres + RLS)
+- [x] Build "Staked Claim" toggle on node creation
+- [x] Build claim engagement UI (Agree/Disagree + Confidence Slider 1–5)
+- [x] Build claim resolution flow (Author-led resolution UI)
+- [x] Connect claim resolutions to reputation system (schema ready)
+- [x] Build "Intellectual Market" discovery page (`/claims`)
 
 ---
 

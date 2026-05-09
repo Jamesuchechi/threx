@@ -16,6 +16,12 @@ export default async function ProfilePage({
     .eq('username', username)
     .single();
 
+  const { data: domainRep } = await supabase
+    .from('reputation_scores')
+    .select('*')
+    .eq('user_id', profile?.id)
+    .order('score', { ascending: false });
+
   if (error || !profile) {
     return notFound();
   }
@@ -93,23 +99,27 @@ export default async function ProfilePage({
 
         {/* Left: Main Content */}
         <div>
-          {/* Cognitive Profile */}
+          {/* Domain Authority */}
           <div className="node-card" style={{ marginBottom: '24px' }}>
             <h3 style={{ fontFamily: 'Cinzel, serif', fontSize: '13px', color: 'var(--text)', textTransform: 'uppercase', letterSpacing: '2px', borderLeft: '2px solid var(--gold)', paddingLeft: '12px', marginBottom: '20px' }}>
-              Cognitive Profile
+              Domain Authority
             </h3>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '16px', background: 'var(--bg3)', padding: '20px', borderRadius: '8px', border: '1px solid var(--border)' }}>
-              <div style={{ width: '40px', height: '40px', background: 'var(--bg)', border: '1px solid var(--border2)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                <div style={{ width: '12px', height: '12px', background: 'var(--gold)', transform: 'rotate(45deg)' }} />
-              </div>
-              <div>
-                <div style={{ fontSize: '12px', fontWeight: '600', color: 'var(--text)', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '4px' }}>
-                  {profile.thinking_style || 'Generalist'}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              {domainRep && domainRep.length > 0 ? domainRep.map((rep: any) => (
+                <div key={rep.domain} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'var(--bg3)', padding: '12px 20px', borderRadius: '8px', border: '1px solid var(--border)' }}>
+                   <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                      <div style={{ padding: '4px 8px', borderRadius: '4px', background: 'var(--card2)', fontSize: '10px', color: 'var(--gold-lt)', fontWeight: 'bold' }}>
+                        RANK #{rep.rank || '?'}
+                      </div>
+                      <span style={{ fontSize: '14px', fontWeight: '600', color: 'var(--text)', textTransform: 'capitalize' }}>{rep.domain}</span>
+                   </div>
+                   <div style={{ fontSize: '18px', fontWeight: 'bold', color: 'var(--gold-lt)', fontFamily: 'Cinzel, serif' }}>
+                      {rep.score}
+                   </div>
                 </div>
-                <div style={{ fontSize: '11px', color: 'var(--text3)' }}>
-                  Primary cognitive architecture as inferred by THREX-AI
-                </div>
-              </div>
+              )) : (
+                <p style={{ fontSize: '12px', color: 'var(--text3)', fontStyle: 'italic' }}>No domain-specific authority established yet.</p>
+              )}
             </div>
           </div>
 

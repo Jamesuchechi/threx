@@ -16,7 +16,6 @@ import RevealObserver from '../components/landing/RevealObserver';
 export default function LandingPage() {
   return (
     <>
-      <Cursor />
       <LandingNav />
       <Hero />
       <Ticker />

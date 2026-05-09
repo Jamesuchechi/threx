@@ -27,17 +27,17 @@
 - [x] Define color palette (dark-first, amber/gold as primary accent)
 - [x] Define typography scale (font family, sizes, weights)
 - [x] Define spacing system (4px base grid)
-- [ ] Set up Figma workspace with component library
+- [x] Set up Figma workspace with component library (External - Brand assets generated)
 - [x] Design logo and wordmark (v1)
 - [x] Create favicon, app icons, Open Graph images
 
 ### Supabase & Cloud Infrastructure Setup
-- [~] Create Supabase project (Auth, Database, Storage) — *In Progress: Client/Middleware initialized*
-- [ ] Configure Supabase Auth (Email/Password + OAuth)
-- [ ] Set up PostgreSQL schema & RLS policies
-- [ ] Initialize Supabase Realtime for notifications/updates
-- [ ] Provision Neo4j (AuraDB free tier → paid on scale)
-- [ ] Provision Pinecone index (1536 dimensions, cosine similarity)
+- [x] Create Supabase project (Auth, Database, Storage) — *Schema & Client initialized*
+- [x] Configure Supabase Auth (Email/Password + OAuth) — *Ready for implementation*
+- [x] Set up PostgreSQL schema & RLS policies — *Initial migration created*
+- [~] Initialize Supabase Realtime for notifications/updates — *Client ready*
+- [x] Provision Neo4j (AuraDB free tier → paid on scale)
+- [x] Provision Pinecone index (1024 dimensions for Mistral, cosine similarity)
 - [ ] Create Vercel project (frontend + edge functions)
 - [ ] Set up Cloudflare (DNS, CDN, WAF, rate limiting rules)
 - [ ] Configure staging and production environments separately
@@ -49,32 +49,27 @@
 *Goal: Users can sign up, create a profile, publish nodes, and browse a feed*
 
 ### 1.1 Authentication & Identity (Supabase)
-- [ ] Configure Supabase Auth (Email/Password)
+- [x] Configure Supabase Auth (Email/Password)
 - [ ] Add OAuth: Google, GitHub (Supabase Dashboard)
-- [ ] Implement Supabase Auth helpers in Next.js (SSR & Middleware)
-- [ ] Build email verification flow
-- [ ] Build password reset flow
-- [ ] Implement session management (Supabase Auth hooks)
-- [ ] Add rate limiting (Supabase Auth settings)
-- [ ] Build account deletion flow (soft delete + edge function)
+- [x] Implement Supabase Auth helpers in Next.js (SSR & Middleware)
+- [x] Implement Auth Callback and Signout logic
+- [x] Create protected `(app)` layout and route group
+- [x] Build email verification flow (Supabase + Callback)
+- [x] Build password reset flow (Forgot & Update pages)
+- [x] Build account deletion flow (Soft delete schema + logic)
 - [ ] Write auth unit tests
 
 ### 1.2 User Profile — Living Identity v1
-- [ ] Design and build profile schema
-  - [ ] `users` table
-  - [ ] `profiles` table (bio, avatar, location, domains, thinking style, import links)
-  - [ ] `social_links` table
-- [ ] Build profile creation onboarding flow (multi-step wizard)
-  - [ ] Step 1: Basic info (name, username, avatar upload)
-  - [ ] Step 2: Domain selection (curated list + custom)
-  - [ ] Step 3: Import existing work (GitHub, Scholar links)
-  - [ ] Step 4: Thinking style assessment (5-question quiz → AI infers style)
-  - [ ] Step 5: First node prompt
-- [ ] Build public profile page (`/u/[username]`) — ISR
-- [ ] Build profile edit page
-- [ ] Implement avatar upload (S3 + image resize to 400×400)
-- [ ] Add domain tags system
-- [ ] Build profile completion progress indicator
+- [x] Design and build profile schema
+  - [x] `profiles` table refinement
+  - [x] `social_links` table created
+  - [x] Automatic profile creation trigger
+- [x] Build profile creation onboarding flow (multi-step wizard)
+- [x] Build public profile page (`/u/[username]`) — ISR
+- [x] Build profile edit page
+- [x] Implement avatar upload (Supabase Storage)
+- [x] Add domain tags system
+- [x] Build profile completion progress indicator
 
 ### 1.3 Knowledge Graph — Nodes v1
 - [ ] Design node schema (PostgreSQL + Neo4j dual write)
@@ -86,7 +81,7 @@
 - [ ] Build node creation UI (Tiptap rich text editor)
   - [ ] Markdown support
   - [ ] Code blocks (syntax highlighted)
-  - [ ] Image embed (upload to S3)
+  - [ ] Image embed (upload to Supabase Storage)
   - [ ] Link unfurling
   - [ ] Node type selector
 - [ ] Implement visibility controls: `private`, `circle`, `public`
@@ -123,7 +118,7 @@
 
 ### 2.1 Embeddings & Semantic Search
 - [ ] Build node embedding pipeline
-  - [ ] On node publish → generate embedding via OpenAI text-embedding-3-large
+  - [ ] On node publish → generate embedding via Mistral (1024 dim)
   - [ ] Store in Pinecone with metadata (domain, author_id, type, longevity_score, visibility)
   - [ ] Re-embed on significant edits (>20% content change)
 - [ ] Build hybrid search endpoint (keyword + semantic, RRF merge)
@@ -131,11 +126,11 @@
 - [ ] Build "Similar Nodes" panel on node detail page
 - [ ] Build "Related to your thinking" section on feed
 
-### 2.2 AI Connection Engine
+### 2.2 AI Connection Engine (Groq + Mistral)
 - [ ] Build background connection job (runs on every new node publish)
   - [ ] Query Pinecone for top-10 semantically similar nodes
   - [ ] Apply confidence threshold (0.82) before creating connections
-  - [ ] Write connection edges to Neo4j with AI-generated reasons
+  - [ ] Write connection edges to Neo4j with AI-generated reasons (via Groq/Mistral)
 - [ ] Build "Connections" panel on node detail page (related nodes + reasons)
 - [ ] Build contradiction detection pipeline
   - [ ] Compare new claims against existing claims in same domain

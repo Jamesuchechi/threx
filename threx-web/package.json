@@ -9,7 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@axiomhq/nextjs": "^0.2.1",
+    "@sentry/nextjs": "^10.52.0",
+    "@supabase/ssr": "^0.10.3",
+    "@supabase/supabase-js": "^2.105.4",
     "next": "16.2.6",
+    "posthog-js": "^1.372.10",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

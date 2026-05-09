@@ -1,0 +1,8 @@
+packages:
+  - 'agent-service'
+  - 'ai-service'
+  - 'core-api'
+  - 'media-service'
+  - 'shared'
+  - 'threx-web'
+  - 'websocket-server'
